@@ -10,3 +10,6 @@ deepflow2-static
 deepmatching-static
 consistencyChecker/consistencyChecker
 data/
+*.flo
+*.pgm
+*.ppm
