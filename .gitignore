@@ -9,3 +9,4 @@ models/
 deepflow2-static
 deepmatching-static
 consistencyChecker/consistencyChecker
+data/
