@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'rmagick'
 
 if ARGV.size < 3
