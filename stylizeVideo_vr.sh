@@ -88,17 +88,17 @@ gpu=${gpu:-0}
 echo ""
 echo "Computing optical flow. This may take a while..."
 bash makeOptFlow.sh ./${filename}/frame_%04d.ppm ./${filename}/flow_$resolution
-bash makeOptFlow_spatial.sh ./${filename}/frame_%04d.ppm ./${filename}/flow_$resolution
+bash makeOptFlow_spatial.sh ./${filename}/frame_%04d.ppm ./${filename}/flow_spatial_$resolution
 
 # Perform style transfer
 th artistic_video_vr.lua \
 -content_pattern ${filename}/frame_%04d.ppm \
 -flow_pattern ${filename}/flow_${resolution}/backward_[%d]_{%d}.flo \
 -flowWeight_pattern ${filename}/flow_${resolution}/reliable_[%d]_{%d}.pgm \
--flow_pattern_spatial_lr ${filename}/flow_spatial/frame_{%04d}_lr.flo \
--flow_pattern_spatial_rl ${filename}/flow_spatial/frame_{%04d}_rl.flo \
--flowWeight_pattern_spatial_lr ${filename}/flow_${resolution}/reliable_frame_{%04d}_lr.pgm \
--flowWeight_pattern_spatial_rl ${filename}/flow_${resolution}/reliable_frame_{%04d}_rl.pgm \
+-flow_pattern_spatial_lr ${filename}/flow_spatial_${resolution}/frame_{%04d}_lr.flo \
+-flow_pattern_spatial_rl ${filename}/flow_spatial_${resolution}/frame_{%04d}_rl.flo \
+-flowWeight_pattern_spatial_lr ${filename}/flow_spatial_${resolution}/reliable_frame_{%04d}_lr.pgm \
+-flowWeight_pattern_spatial_rl ${filename}/flow_spatial_${resolution}/reliable_frame_{%04d}_rl.pgm \
 -style_weight $style_weight \
 -temporal_weight $temporal_weight \
 -spatial_weight $spatial_weight \
@@ -107,9 +107,7 @@ th artistic_video_vr.lua \
 -backend $backend \
 -gpu $gpu \
 -cudnn_autotune \
--number_format %04d  \
--optimizer lbfgs \
--learning_rate 10e-1
+-number_format %04d
 
 # Create video from output images.
 $FFMPEG -i ${filename}/out-%04d.png ${filename}-stylized.$extension
